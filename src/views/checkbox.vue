@@ -1,0 +1,134 @@
+<script setup lang="ts">
+import { Checkbox } from '@/components/checkbox'
+import { NotForm, NotField } from 'notform'
+
+const tasks = [
+  {
+    id: 'push',
+    label: 'Push notifications',
+  },
+  {
+    id: 'email',
+    label: 'Email notifications',
+  },
+] as const
+
+const { id, submit, reset, state, setState } = useNotForm({
+  schema: z.object({
+    responses: z.boolean(),
+    tasks: z
+      .array(z.string())
+      .min(1, 'Please select at least one notification type.')
+      .refine(
+        value => value.every(task => tasks.some(t => t.id === task)),
+        {
+          message: 'Invalid notification type selected.',
+        },
+      ),
+  }),
+  initialState: {
+    responses: true,
+    tasks: [],
+  },
+  onSubmit(data) {
+    toast('You submitted the following values:', {
+      description: h('pre', { class: 'bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4' }, h('code', JSON.stringify(data, null, 2))),
+      position: 'bottom-right',
+      class: 'flex flex-col gap-2',
+      style: {
+        '--border-radius': 'calc(var(--radius)  + 4px)',
+      },
+    })
+  },
+})
+</script>
+
+<template>
+  <Display title="Checkbox">
+
+
+    <NotForm :id @submit="submit" @reset="reset()">
+
+      <FieldGroup>
+
+        <NotField v-slot="{ methods, name, errors }" name="responses">
+
+          <FieldSet :data-invalid="!!errors.length">
+
+            <FieldLegend variant="label">
+              Responses
+            </FieldLegend>
+
+            <FieldDescription>
+              Get notified for requests that take time, like research or image
+              generation.
+            </FieldDescription>
+
+            <FieldGroup data-slot="checkbox-group">
+              <Field orientation="horizontal">
+                <Checkbox :id="name" :name="name" v-model="state.responses" disabled
+                  @update:model-value="methods.onChange" />
+                <FieldLabel :for="name" class="font-normal">
+                  Push notifications
+                </FieldLabel>
+              </Field>
+            </FieldGroup>
+            <FieldError v-if="errors.length" :errors="errors" />
+          </FieldSet>
+
+        </NotField>
+
+        <FieldSeparator />
+
+        <NotField v-slot="{ methods, name, errors }" name="tasks">
+
+          <FieldSet :data-invalid="!!errors.length">
+
+            <FieldLegend variant="label">
+              Tasks
+            </FieldLegend>
+
+            <FieldDescription>
+              Get notified when tasks you've created have updates.
+            </FieldDescription>
+
+            <FieldGroup data-slot="checkbox-group">
+              <Field v-for="task in tasks" :key="task.id" orientation="horizontal" :data-invalid="!!errors.length">
+                <Checkbox :id="`form-vee-checkbox-${task.id}`" :name="name" :aria-invalid="!!errors.length"
+                  :model-value="state.tasks.includes(task.id)" @update:model-value="
+                    (checked: boolean | 'indeterminate') => {
+                      const newValue = checked
+                        ? [...(state.tasks || []), task.id]
+                        : (state.tasks || []).filter(
+                          (value: string) => value !== task.id,
+                        );
+                      setState({ tasks: newValue })
+                      methods.onChange();
+                    }
+                  " />
+                <FieldLabel :for="`form-vee-checkbox-${task.id}`" class="
+                  font-normal
+                ">
+                  {{ task.label }}
+                </FieldLabel>
+              </Field>
+            </FieldGroup>
+            <FieldError v-if="errors.length" :errors="errors" />
+          </FieldSet>
+        </NotField>
+      </FieldGroup>
+
+    </NotForm>
+
+    <template #footer>
+      <Field orientation="horizontal">
+        <Button type="reset" variant="outline" :form="id">
+          Reset
+        </Button>
+        <Button type="submit" :form="id">
+          Submit
+        </Button>
+      </Field>
+    </template>
+  </Display>
+</template>

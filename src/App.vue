@@ -2,7 +2,7 @@
 const router = useRouter()
 
 const pages = computed(() => {
-  return router.getRoutes().filter(route => route.meta.title).map((route) => {
+  return router.getRoutes().filter(route => route.name).map((route) => {
     return {
       title: route.meta.title,
       path: route.path,
@@ -13,8 +13,8 @@ const pages = computed(() => {
 const navigation = computed(() => {
   const currentRoute = router.currentRoute.value
   const currentIndex = pages.value.findIndex(page => page.path === currentRoute.path)
-  const prevPage = pages.value[currentIndex - 1]
-  const nextPage = pages.value[currentIndex + 1]
+  const prevPage = currentIndex > 0 ? pages.value[currentIndex - 1] : null
+  const nextPage = currentIndex < pages.value.length - 1 ? pages.value[currentIndex + 1] : null
   return {
     prevPage,
     nextPage,
@@ -23,27 +23,20 @@ const navigation = computed(() => {
 </script>
 
 <template>
-  <header class="
-    sticky top-0 flex w-full items-center justify-between border-b border-dashed
-    border-border p-4
-  ">
+<div class="grid h-dvh grid-cols-1 grid-rows-[auto_1fr_auto]">
 
-      <div class="
-        flex items-center gap-1 font-mono text-2xl tracking-tighter text-primary
-        uppercase
-      ">
-        <img src="https://notform-docs.vercel.app/logo.svg" alt="Logo" class="
-          h-5
-        ">
-        <p>NotForm Shadcn</p>
-      </div>
-
-      <ModeToggle></ModeToggle>
+    <header class="
+      sticky top-0 flex w-full items-center justify-between border-b
+      border-dashed border-border p-4
+    ">
+    <img src="https://notform-docs.vercel.app/logo.svg" alt="Logo" class="h-5">
+    <ModeToggle></ModeToggle>
   </header>
 
   <main class="grid h-full grid-cols-1 place-items-center p-4">
-    <RouterView />
 
+    <RouterView/>
+    
     <div class="
       mx-auto flex w-full max-w-xl flex-wrap items-center justify-between gap-2
     ">
@@ -55,5 +48,11 @@ const navigation = computed(() => {
         <RouterLink :to="navigation.nextPage.path">{{ navigation.nextPage.title }}</RouterLink>
       </Button>
     </div>
+
   </main>
+
+  <Sonner></Sonner>
+
+</div>
+
 </template>

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import { NotField, NotForm } from 'notform'
-import { toast } from 'vue-sonner'
-
 
 const schema = z.object({
   title: z
@@ -34,61 +32,50 @@ const { id, state, submit, reset } = useNotForm({
 </script>
 
 <template>
-  <Display title="Bug Title" description="Help us improve by reporting bugs you encounter.">
+  <Display title="Demo">
 
     <NotForm :id @submit="submit" @reset="reset()">
 
       <FieldGroup>
 
-        <NotField name="title" v-slot="{errors,name,methods}">
+        <NotField name="title" v-slot="{ errors, name, methods }">
 
           <Field :data-invalid="!!errors.length">
-              <FieldLabel :for="name">
-                Bug Title
-              </FieldLabel>
+            <FieldLabel :for="name">
+              Bug Title
+            </FieldLabel>
 
-               <Input
-                :id="name"
-                v-bind="methods"
-                v-model="state.title"
-                placeholder="Login button not working on mobile"
-                autocomplete="off"
-                :aria-invalid="!!errors.length"
-              />
- <FieldError v-if="errors.length" :errors="errors" />
-              </Field>
+            <Input :id="name" v-bind="methods" v-model="state.title" placeholder="Login button not working on mobile"
+              autocomplete="off" :aria-invalid="!!errors.length" />
+            <FieldError v-if="errors.length" :errors="errors" />
+          </Field>
 
-      </NotField>
+        </NotField>
 
-       <NotField v-slot="{ methods,name, errors }" name="description">
-            <Field :data-invalid="!!errors.length">
+        <NotField v-slot="{ methods, name, errors }" name="description">
+          <Field :data-invalid="!!errors.length">
 
-              <FieldLabel :for="name">
-                Description
-              </FieldLabel>
+            <FieldLabel :for="name">
+              Description
+            </FieldLabel>
 
-              <InputGroup>
-                <InputGroupTextarea
-                  :id="name"
-                  v-bind="methods"
-                  placeholder="I'm having an issue with the login button on mobile."
-                  :rows="6"
-                  class="min-h-24 resize-none"
-                  :aria-invalid="!!errors.length"
-                />
-                <InputGroupAddon align="block-end">
-                  <InputGroupText class="tabular-nums">
-                    {{ state.description?.length || 0 }}/100 characters
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-              <FieldDescription>
-                Include steps to reproduce, expected behavior, and what actually
-                happened.
-              </FieldDescription>
-              <FieldError v-if="errors.length" :errors="errors" />
-            </Field>
-          </NotField>
+            <InputGroup>
+              <InputGroupTextarea :id="name" v-bind="methods" v-model="state.description"
+                placeholder="I'm having an issue with the login button on mobile." :rows="6"
+                class="min-h-24 resize-none" :aria-invalid="!!errors.length" />
+              <InputGroupAddon align="block-end">
+                <InputGroupText class="tabular-nums">
+                  {{ state.description?.length || 0 }}/100 characters
+                </InputGroupText>
+              </InputGroupAddon>
+            </InputGroup>
+            <FieldDescription>
+              Include steps to reproduce, expected behavior, and what actually
+              happened.
+            </FieldDescription>
+            <FieldError v-if="errors.length" :errors="errors" />
+          </Field>
+        </NotField>
 
       </FieldGroup>
 

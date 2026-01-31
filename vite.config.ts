@@ -10,14 +10,17 @@ export default defineConfig({
   plugins: [
     vue(),
     tailwindcss(),
-    Components(),
+    Components({
+      dirs: ['src/components'],
+    }),
     AutoImport({
       imports: [
         'vue',
         'vue-router',
         {
-          notform: ['useNotForm'],
-          zod: ['z'],
+          'notform': ['useNotForm'],
+          'zod': ['z'],
+          'vue-sonner': ['toast'],
         },
       ],
     }),

@@ -12,6 +12,38 @@ const router = createRouter({
       },
       component: Demo,
     },
+    {
+      path: '/input',
+      name: 'input',
+      meta: {
+        title: 'Input',
+      },
+      component: () => import('@/views/input.vue'),
+    },
+    {
+      path: '/textarea',
+      name: 'textarea',
+      meta: {
+        title: 'Textarea',
+      },
+      component: () => import('@/views/textarea.vue'),
+    },
+    {
+      path: '/select',
+      name: 'select',
+      meta: {
+        title: 'Select',
+      },
+      component: () => import('@/views/select.vue'),
+    },
+    {
+      path: '/checkbox',
+      name: 'checkbox',
+      meta: {
+        title: 'Checkbox',
+      },
+      component: () => import('@/views/checkbox.vue'),
+    },
   ],
 })
 
