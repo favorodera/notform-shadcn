@@ -44,6 +44,14 @@ const router = createRouter({
       },
       component: () => import('@/views/checkbox.vue'),
     },
+    {
+      path: '/radio-group',
+      name: 'radio-group',
+      meta: {
+        title: 'Radio Group',
+      },
+      component: () => import('@/views/radio-group.vue'),
+    },
   ],
 })
 

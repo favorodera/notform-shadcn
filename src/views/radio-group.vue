@@ -1,0 +1,105 @@
+<script lang="ts" setup>
+import { RadioGroup } from '@/components/radio-group'
+import { NotForm, NotField } from 'notform'
+
+const plans = [
+  {
+    id: 'starter',
+    title: 'Starter (100K tokens/month)',
+    description: 'For everyday use with basic features.',
+  },
+  {
+    id: 'pro',
+    title: 'Pro (1M tokens/month)',
+    description: 'For advanced AI usage with more features.',
+  },
+  {
+    id: 'enterprise',
+    title: 'Enterprise (Unlimited tokens)',
+    description: 'For large teams and heavy usage.',
+  },
+] as const
+
+const { state, id, submit, reset } = useNotForm({
+  schema: z.object({
+    plan: z.string().min(1, 'You must select a subscription plan to continue.'),
+  }),
+  initialState: {
+    plan: '',
+  },
+  onSubmit(data) {
+    toast('You submitted the following values:', {
+      description: h('pre', { class: 'bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4' }, h('code', JSON.stringify(data, null, 2))),
+      position: 'bottom-right',
+      class: 'flex flex-col gap-2',
+      style: {
+        '--border-radius': 'calc(var(--radius)  + 4px)',
+      },
+    })
+  },
+})
+</script>
+
+<template>
+
+  <Display title="Radio Group">
+
+    <NotForm :id="id" :state="state" @submit="submit" @reset="reset()">
+
+      <NotField name="plan" v-slot="{ errors, name, methods }">
+
+        <FieldSet :data-invalid="!!errors.length">
+
+          <FieldLegend>Plan</FieldLegend>
+
+          <FieldDescription>
+            You can upgrade or downgrade your plan at any time.
+          </FieldDescription>
+
+          <RadioGroup
+          :name="name"
+          v-model="state.plan"
+          :aria-invalid="!!errors.length"
+            @update:model-value="methods.onChange">
+
+            <FieldLabel v-for="plan in plans" :key="plan.id" :for="`${name}-${plan.id}`">
+
+              <Field orientation="horizontal" :data-invalid="!!errors.length">
+
+                <FieldContent>
+
+                  <FieldTitle>{{ plan.title }}</FieldTitle>
+                  <FieldDescription>
+                    {{ plan.description }}
+                  </FieldDescription>
+
+                </FieldContent>
+
+                <RadioGroupItem :id="`${name}-${plan.id}`" :value="plan.id"
+                  :aria-invalid="!!errors.length" />
+              </Field>
+
+            </FieldLabel>
+
+          </RadioGroup>
+
+          <FieldError v-if="errors.length" :errors="errors" />
+          
+        </FieldSet>
+      </NotField>
+
+    </NotForm>
+
+    <template #footer>
+      <Field orientation="horizontal">
+        <Button type="reset" variant="outline" :form="id">
+          Reset
+        </Button>
+        <Button type="submit" :form="id">
+          Submit
+        </Button>
+      </Field>
+    </template>
+  </Display>
+
+</template>

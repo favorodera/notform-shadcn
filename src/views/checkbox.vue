@@ -95,16 +95,18 @@ const { id, submit, reset, state, setState } = useNotForm({
             <FieldGroup data-slot="checkbox-group">
               <Field v-for="task in tasks" :key="task.id" orientation="horizontal" :data-invalid="!!errors.length">
                 <Checkbox :id="`form-vee-checkbox-${task.id}`" :name="name" :aria-invalid="!!errors.length"
-                  :model-value="state.tasks.includes(task.id)" @update:model-value="
-                    (checked: boolean | 'indeterminate') => {
-                      const newValue = checked
-                        ? [...(state.tasks || []), task.id]
-                        : (state.tasks || []).filter(
-                          (value: string) => value !== task.id,
-                        );
-                      setState({ tasks: newValue })
-                      methods.onChange();
-                    }
+                  :model-value="state.tasks.includes(task.id)" @update:model-value="(checked: boolean | 'indeterminate') => {
+                    const currentTasks = state.tasks || [];
+
+                    // Determine the new list of IDs
+                    const newValue = checked
+                      ? [...currentTasks, task.id] // Add if checked
+                      : currentTasks.filter((id: string) => id !== task.id); // Remove if unchecked
+
+                    // Update state and trigger change
+                    setState({ tasks: newValue });
+                    methods.onChange();
+                  }
                   " />
                 <FieldLabel :for="`form-vee-checkbox-${task.id}`" class="
                   font-normal
