@@ -1,20 +1,59 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import { Button } from './components/button';
+const router = useRouter()
+
+const pages = computed(() => {
+  return router.getRoutes().filter(route => route.meta.title).map((route) => {
+    return {
+      title: route.meta.title,
+      path: route.path,
+    }
+  })
+})
+
+const navigation = computed(() => {
+  const currentRoute = router.currentRoute.value
+  const currentIndex = pages.value.findIndex(page => page.path === currentRoute.path)
+  const prevPage = pages.value[currentIndex - 1]
+  const nextPage = pages.value[currentIndex + 1]
+  return {
+    prevPage,
+    nextPage,
+  }
+})
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
+  <header class="
+    sticky top-0 flex w-full items-center justify-between border-b border-dashed
+    border-border p-4
+  ">
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+      <div class="
+        flex items-center gap-1 font-mono text-2xl tracking-tighter text-primary
+        uppercase
+      ">
+        <img src="https://notform-docs.vercel.app/logo.svg" alt="Logo" class="
+          h-5
+        ">
+        <p>NotForm Shadcn</p>
+      </div>
 
-      <Button>Button</Button>
-    </div>
+      <ModeToggle></ModeToggle>
   </header>
 
-  <RouterView />
+  <main class="grid h-full grid-cols-1 place-items-center p-4">
+    <RouterView />
+
+    <div class="
+      mx-auto flex w-full max-w-xl flex-wrap items-center justify-between gap-2
+    ">
+      <Button v-if="navigation.prevPage" as-child>
+        <RouterLink :to="navigation.prevPage.path">{{ navigation.prevPage.title }}</RouterLink>
+      </Button>
+
+      <Button v-if="navigation.nextPage" as-child class="ml-auto">
+        <RouterLink :to="navigation.nextPage.path">{{ navigation.nextPage.title }}</RouterLink>
+      </Button>
+    </div>
+  </main>
 </template>
