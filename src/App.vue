@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Toaster } from '@/components/sonner'
+
 const router = useRouter()
 
 const pages = computed(() => {
@@ -33,9 +35,13 @@ const navigation = computed(() => {
     <ModeToggle></ModeToggle>
   </header>
 
-  <main class="grid h-full grid-cols-1 place-items-center p-4">
+  <main class="grid h-full grid-cols-1 place-items-center gap-4 p-4">
 
-    <RouterView/>
+    <RouterView v-slot={Component}>
+      <KeepAlive>
+        <component :is="Component"/>
+      </KeepAlive>
+    </RouterView>
     
     <div class="
       mx-auto flex w-full max-w-xl flex-wrap items-center justify-between gap-2
@@ -51,7 +57,7 @@ const navigation = computed(() => {
 
   </main>
 
-  <Sonner></Sonner>
+   <Toaster/>
 
 </div>
 

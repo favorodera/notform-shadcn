@@ -30,16 +30,7 @@ const { id, submit, reset, state, setState } = useNotForm({
     responses: true,
     tasks: [],
   },
-  onSubmit(data) {
-    toast('You submitted the following values:', {
-      description: h('pre', { class: 'bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4' }, h('code', JSON.stringify(data, null, 2))),
-      position: 'bottom-right',
-      class: 'flex flex-col gap-2',
-      style: {
-        '--border-radius': 'calc(var(--radius)  + 4px)',
-      },
-    })
-  },
+  onSubmit: data => submitToast(data),
 })
 </script>
 
@@ -67,7 +58,7 @@ const { id, submit, reset, state, setState } = useNotForm({
             <FieldGroup data-slot="checkbox-group">
               <Field orientation="horizontal">
                 <Checkbox :id="name" :name="name" v-model="state.responses" disabled
-                  @update:model-value="methods.onChange" />
+                  @update:model-value="methods.onBlur()" />
                 <FieldLabel :for="name" class="font-normal">
                   Push notifications
                 </FieldLabel>
@@ -105,7 +96,7 @@ const { id, submit, reset, state, setState } = useNotForm({
 
                     // Update state and trigger change
                     setState({ tasks: newValue });
-                    methods.onChange();
+                    methods.onBlur();
                   }
                   " />
                 <FieldLabel :for="`form-vee-checkbox-${task.id}`" class="

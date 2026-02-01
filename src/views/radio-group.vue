@@ -27,16 +27,7 @@ const { state, id, submit, reset } = useNotForm({
   initialState: {
     plan: '',
   },
-  onSubmit(data) {
-    toast('You submitted the following values:', {
-      description: h('pre', { class: 'bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4' }, h('code', JSON.stringify(data, null, 2))),
-      position: 'bottom-right',
-      class: 'flex flex-col gap-2',
-      style: {
-        '--border-radius': 'calc(var(--radius)  + 4px)',
-      },
-    })
-  },
+  onSubmit: data => submitToast(data),
 })
 </script>
 
@@ -56,11 +47,8 @@ const { state, id, submit, reset } = useNotForm({
             You can upgrade or downgrade your plan at any time.
           </FieldDescription>
 
-          <RadioGroup
-          :name="name"
-          v-model="state.plan"
-          :aria-invalid="!!errors.length"
-            @update:model-value="methods.onChange">
+          <RadioGroup :name="name" v-model="state.plan" :aria-invalid="!!errors.length"
+            @update:model-value="methods.onBlur()">
 
             <FieldLabel v-for="plan in plans" :key="plan.id" :for="`${name}-${plan.id}`">
 
@@ -75,8 +63,7 @@ const { state, id, submit, reset } = useNotForm({
 
                 </FieldContent>
 
-                <RadioGroupItem :id="`${name}-${plan.id}`" :value="plan.id"
-                  :aria-invalid="!!errors.length" />
+                <RadioGroupItem :id="`${name}-${plan.id}`" :value="plan.id" :aria-invalid="!!errors.length" />
               </Field>
 
             </FieldLabel>
@@ -84,7 +71,7 @@ const { state, id, submit, reset } = useNotForm({
           </RadioGroup>
 
           <FieldError v-if="errors.length" :errors="errors" />
-          
+
         </FieldSet>
       </NotField>
 

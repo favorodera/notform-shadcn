@@ -87,6 +87,7 @@ declare module 'vue' {
     SelectValue: typeof import('./src/components/select/SelectValue.vue')['default']
     Separator: typeof import('./src/components/separator/Separator.vue')['default']
     Sonner: typeof import('./src/components/sonner/Sonner.vue')['default']
+    Switch: typeof import('./src/components/switch/Switch.vue')['default']
     TagsInput: typeof import('./src/components/tags-input/TagsInput.vue')['default']
     TagsInputInput: typeof import('./src/components/tags-input/TagsInputInput.vue')['default']
     TagsInputItem: typeof import('./src/components/tags-input/TagsInputItem.vue')['default']

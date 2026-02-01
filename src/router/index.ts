@@ -52,6 +52,22 @@ const router = createRouter({
       },
       component: () => import('@/views/radio-group.vue'),
     },
+    {
+      path: '/switch',
+      name: 'switch',
+      meta: {
+        title: 'Switch',
+      },
+      component: () => import('@/views/switch.vue'),
+    },
+    {
+      path: '/complex-forms',
+      name: 'complex-forms',
+      meta: {
+        title: 'Complex Form',
+      },
+      component: () => import('@/views/complex-forms.vue'),
+    },
   ],
 })
 

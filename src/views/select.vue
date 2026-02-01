@@ -15,16 +15,7 @@ const { id, reset, submit, state } = useNotForm({
   initialState: {
     language: '',
   },
-  onSubmit(data) {
-    toast('You submitted the following values:', {
-      description: h('pre', { class: 'bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4' }, h('code', JSON.stringify(data, null, 2))),
-      position: 'bottom-right',
-      class: 'flex flex-col gap-2',
-      style: {
-        '--border-radius': 'calc(var(--radius)  + 4px)',
-      },
-    })
-  },
+  onSubmit: data => submitToast(data),
 })
 
 const spokenLanguages = [
@@ -70,8 +61,7 @@ const spokenLanguages = [
               <Select
                 :name="name"
                 v-model="state.language"
-                @update:model-value="methods.onChange"
-                @update:open="(open) => open ? methods.onFocus() : methods.onBlur()"
+                @update:model-value="methods.onBlur()"
               >
                 <SelectTrigger
                   :id="name"
