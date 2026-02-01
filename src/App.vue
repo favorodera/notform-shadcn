@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { Toaster } from '@/components/sonner'
+import { useColorMode } from '@vueuse/core'
+
+useColorMode()
 
 const router = useRouter()
 
