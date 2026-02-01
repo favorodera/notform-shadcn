@@ -25,48 +25,34 @@ const navigation = computed(() => {
 </script>
 
 <template>
-<div class="grid h-dvh grid-cols-1 grid-rows-[auto_1fr_auto]">
-
-    <header class="
-      sticky top-0 flex w-full items-center justify-between border-b
-      border-dashed border-border px-4 py-2
+  <main class="flex h-dvh flex-col items-center justify-center gap-2 p-4">
+    <div class="
+      mx-auto flex w-full max-w-xl flex-wrap items-center justify-between gap-2
     ">
-    <img src="https://notform-docs.vercel.app/logo.svg" alt="Logo" class="h-5">
-    <ModeToggle></ModeToggle>
-  </header>
+      <Button v-if="navigation.prevPage" as-child size="sm">
+        <RouterLink :to="navigation.prevPage.path">{{ navigation.prevPage.title }}</RouterLink>
+      </Button>
+      
 
-  <main class="grid h-full grid-cols-1 place-items-center gap-4 p-4">
+      <Button v-if="navigation.nextPage" as-child class="ml-auto" size="sm">
+        <RouterLink :to="navigation.nextPage.path">{{ navigation.nextPage.title }}</RouterLink>
+      </Button>
+    </div>
 
-    <p class="text-center text-muted-foreground">
-      A visual representation on using  <Button variant="link" as-child>
-        <a href="https://notform-docs.vercel.app/" target="_blank" rel="noopener">
-          notform
-        </a>
-      </Button> with shadcn form components
-    </p>
 
     <RouterView v-slot={Component}>
       <KeepAlive>
         <component :is="Component"/>
       </KeepAlive>
     </RouterView>
-    
-    <div class="
-      mx-auto flex w-full max-w-xl flex-wrap items-center justify-between gap-2
-    ">
-      <Button v-if="navigation.prevPage" as-child>
-        <RouterLink :to="navigation.prevPage.path">{{ navigation.prevPage.title }}</RouterLink>
-      </Button>
 
-      <Button v-if="navigation.nextPage" as-child class="ml-auto">
-        <RouterLink :to="navigation.nextPage.path">{{ navigation.nextPage.title }}</RouterLink>
+    <Button variant="link" as-child>
+        <a href="https://notform-docs.vercel.app/" target="_blank" rel="noopener">
+          Docs
+        </a>
       </Button>
-    </div>
-
-  </main>
 
    <Toaster/>
 
-</div>
-
+  </main>
 </template>
