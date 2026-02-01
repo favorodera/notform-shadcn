@@ -37,6 +37,14 @@ const navigation = computed(() => {
 
   <main class="grid h-full grid-cols-1 place-items-center gap-4 p-4">
 
+    <p class="text-center text-sm text-muted-foreground">
+      A visual representation on using  <Button variant="link" as-child>
+        <a href="https://notform-docs.vercel.app/" target="_blank" rel="noopener">
+          notform
+        </a>
+      </Button> with shadcn form components
+    </p>
+
     <RouterView v-slot={Component}>
       <KeepAlive>
         <component :is="Component"/>
