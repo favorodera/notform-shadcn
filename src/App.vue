@@ -25,7 +25,9 @@ const navigation = computed(() => {
 </script>
 
 <template>
-  <main class="flex h-dvh flex-col items-center justify-center gap-2 p-4">
+  <main class="
+    grid h-dvh auto-rows-min grid-cols-1 place-items-center gap-2 p-4
+  ">
     <div class="
       mx-auto flex w-full max-w-xl flex-wrap items-center justify-between gap-2
     ">
@@ -39,18 +41,11 @@ const navigation = computed(() => {
       </Button>
     </div>
 
-
     <RouterView v-slot={Component}>
       <KeepAlive>
         <component :is="Component"/>
       </KeepAlive>
     </RouterView>
-
-    <Button variant="link" as-child>
-        <a href="https://notform-docs.vercel.app/" target="_blank" rel="noopener">
-          Docs
-        </a>
-      </Button>
 
    <Toaster/>
 
