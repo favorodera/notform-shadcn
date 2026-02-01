@@ -68,6 +68,14 @@ const router = createRouter({
       },
       component: () => import('@/views/complex-forms.vue'),
     },
+    {
+      path: '/array-fields',
+      name: 'array-fields',
+      meta: {
+        title: 'Array Fields',
+      },
+      component: () => import('@/views/array-fields.vue'),
+    },
   ],
 })
 

@@ -16,7 +16,7 @@ const { id, reset, submit, state } = useNotForm({
   initialState: {
     username: '',
   },
-   onSubmit: data => submitToast(data),
+  onSubmit: data => submitToast(data),
 })
 
 </script>

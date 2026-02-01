@@ -12,7 +12,7 @@ const { id, reset, submit, state } = useNotForm({
   initialState: {
     about: '',
   },
-   onSubmit: data => submitToast(data),
+  onSubmit: data => submitToast(data),
 })
 
 </script>
