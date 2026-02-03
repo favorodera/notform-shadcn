@@ -48,7 +48,10 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         dark:data-[state=unchecked]:bg-foreground
       `)"
     >
-      <slot name="thumb" v-bind="slotProps" />
+      <slot
+        name="thumb"
+        v-bind="slotProps"
+      />
     </SwitchThumb>
   </SwitchRoot>
 </template>

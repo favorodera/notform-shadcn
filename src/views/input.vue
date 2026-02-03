@@ -22,55 +22,62 @@ const { id, reset, submit, state } = useNotForm({
 </script>
 
 <template>
-<Display title="Input">
+  <Display title="Input">
+    <NotForm
+      :id
+      @submit="submit"
+      @reset="reset()"
+    >
+      <FieldGroup>
+        <NotField
+          v-slot="{ errors, name, methods }"
+          name="username"
+        >
+          <Field :data-invalid="!!errors.length">
+            <FieldLabel :for="name">
+              Username
+            </FieldLabel>
 
-  <NotForm :id @submit="submit" @reset="reset()">
+            <Input
+              :id="name"
+              v-bind="methods"
+              v-model="state.username"
+              :aria-invalid="!!errors.length"
+              placeholder="shadcn"
+              autocomplete="username"
+            />
 
-    <FieldGroup>
+            <FieldDescription>
+              This is your public display name. Must be between 3 and 10
+              characters. Must only contain letters, numbers, and
+              underscores.
+            </FieldDescription>
 
-      <NotField name="username" v-slot="{ errors, name, methods }">
+            <FieldError
+              v-if="errors.length"
+              :errors="errors"
+            />
+          </Field>
+        </NotField>
+      </FieldGroup>
+    </NotForm>
 
-        <Field :data-invalid="!!errors.length">
-
-          <FieldLabel :for="name">
-            Username
-          </FieldLabel>
-
-          <Input
-            :id="name"
-            v-bind="methods"
-            v-model="state.username"
-            :aria-invalid="!!errors.length"
-            placeholder="shadcn"
-            autocomplete="username"
-          />
-
-          <FieldDescription>
-            This is your public display name. Must be between 3 and 10
-            characters. Must only contain letters, numbers, and
-            underscores.
-          </FieldDescription>
-
-          <FieldError v-if="errors.length" :errors="errors" />
-
-        </Field>
-
-      </NotField>
-
-    </FieldGroup>
-
-  </NotForm>
-
-  <template #footer>
-     <Field orientation="horizontal">
-        <Button type="reset" variant="outline" :form="id">
+    <template #footer>
+      <Field orientation="horizontal">
+        <Button
+          type="reset"
+          variant="outline"
+          :form="id"
+        >
           Reset
         </Button>
-        <Button type="submit" :form="id">
+        <Button
+          type="submit"
+          :form="id"
+        >
           Submit
         </Button>
       </Field>
-  </template>
-
-</Display>
+    </template>
+  </Display>
 </template>

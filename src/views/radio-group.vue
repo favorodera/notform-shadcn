@@ -32,61 +32,79 @@ const { state, id, submit, reset } = useNotForm({
 </script>
 
 <template>
-
   <Display title="Radio Group">
-
-    <NotForm :id="id" :state="state" @submit="submit" @reset="reset()">
-
-      <NotField name="plan" v-slot="{ errors, name, methods }">
-
+    <NotForm
+      :id="id"
+      :state="state"
+      @submit="submit"
+      @reset="reset()"
+    >
+      <NotField
+        v-slot="{ errors, name, methods }"
+        name="plan"
+      >
         <FieldSet :data-invalid="!!errors.length">
-
           <FieldLegend>Plan</FieldLegend>
 
           <FieldDescription>
             You can upgrade or downgrade your plan at any time.
           </FieldDescription>
 
-          <RadioGroup :name="name" v-model="state.plan" :aria-invalid="!!errors.length"
-            @update:model-value="methods.onBlur()">
-
-            <FieldLabel v-for="plan in plans" :key="plan.id" :for="`${name}-${plan.id}`">
-
-              <Field orientation="horizontal" :data-invalid="!!errors.length">
-
+          <RadioGroup
+            v-model="state.plan"
+            :name="name"
+            :aria-invalid="!!errors.length"
+            @update:model-value="methods.onBlur()"
+          >
+            <FieldLabel
+              v-for="plan in plans"
+              :key="plan.id"
+              :for="`${name}-${plan.id}`"
+            >
+              <Field
+                orientation="horizontal"
+                :data-invalid="!!errors.length"
+              >
                 <FieldContent>
-
                   <FieldTitle>{{ plan.title }}</FieldTitle>
                   <FieldDescription>
                     {{ plan.description }}
                   </FieldDescription>
-
                 </FieldContent>
 
-                <RadioGroupItem :id="`${name}-${plan.id}`" :value="plan.id" :aria-invalid="!!errors.length" />
+                <RadioGroupItem
+                  :id="`${name}-${plan.id}`"
+                  :value="plan.id"
+                  :aria-invalid="!!errors.length"
+                />
               </Field>
-
             </FieldLabel>
-
           </RadioGroup>
 
-          <FieldError v-if="errors.length" :errors="errors" />
-
+          <FieldError
+            v-if="errors.length"
+            :errors="errors"
+          />
         </FieldSet>
       </NotField>
-
     </NotForm>
 
     <template #footer>
       <Field orientation="horizontal">
-        <Button type="reset" variant="outline" :form="id">
+        <Button
+          type="reset"
+          variant="outline"
+          :form="id"
+        >
           Reset
         </Button>
-        <Button type="submit" :form="id">
+        <Button
+          type="submit"
+          :form="id"
+        >
           Submit
         </Button>
       </Field>
     </template>
   </Display>
-
 </template>

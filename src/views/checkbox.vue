@@ -36,16 +36,17 @@ const { id, submit, reset, state, setState } = useNotForm({
 
 <template>
   <Display title="Checkbox">
-
-
-    <NotForm :id @submit="submit" @reset="reset()">
-
+    <NotForm
+      :id
+      @submit="submit"
+      @reset="reset()"
+    >
       <FieldGroup>
-
-        <NotField v-slot="{ methods, name, errors }" name="responses">
-
+        <NotField
+          v-slot="{ methods, name, errors }"
+          name="responses"
+        >
           <FieldSet :data-invalid="!!errors.length">
-
             <FieldLegend variant="label">
               Responses
             </FieldLegend>
@@ -57,24 +58,35 @@ const { id, submit, reset, state, setState } = useNotForm({
 
             <FieldGroup data-slot="checkbox-group">
               <Field orientation="horizontal">
-                <Checkbox :id="name" :name="name" v-model="state.responses" disabled
-                  @update:model-value="methods.onBlur()" />
-                <FieldLabel :for="name" class="font-normal">
+                <Checkbox
+                  :id="name"
+                  v-model="state.responses"
+                  :name="name"
+                  disabled
+                  @update:model-value="methods.onBlur()"
+                />
+                <FieldLabel
+                  :for="name"
+                  class="font-normal"
+                >
                   Push notifications
                 </FieldLabel>
               </Field>
             </FieldGroup>
-            <FieldError v-if="errors.length" :errors="errors" />
+            <FieldError
+              v-if="errors.length"
+              :errors="errors"
+            />
           </FieldSet>
-
         </NotField>
 
         <FieldSeparator />
 
-        <NotField v-slot="{ methods, name, errors }" name="tasks">
-
+        <NotField
+          v-slot="{ methods, name, errors }"
+          name="tasks"
+        >
           <FieldSet :data-invalid="!!errors.length">
-
             <FieldLegend variant="label">
               Tasks
             </FieldLegend>
@@ -84,9 +96,18 @@ const { id, submit, reset, state, setState } = useNotForm({
             </FieldDescription>
 
             <FieldGroup data-slot="checkbox-group">
-              <Field v-for="task in tasks" :key="task.id" orientation="horizontal" :data-invalid="!!errors.length">
-                <Checkbox :id="`form-vee-checkbox-${task.id}`" :name="name" :aria-invalid="!!errors.length"
-                  :model-value="state.tasks.includes(task.id)" @update:model-value="(checked: boolean | 'indeterminate') => {
+              <Field
+                v-for="task in tasks"
+                :key="task.id"
+                orientation="horizontal"
+                :data-invalid="!!errors.length"
+              >
+                <Checkbox
+                  :id="`form-vee-checkbox-${task.id}`"
+                  :name="name"
+                  :aria-invalid="!!errors.length"
+                  :model-value="state.tasks.includes(task.id)"
+                  @update:model-value="(checked: boolean | 'indeterminate') => {
                     const currentTasks = state.tasks || [];
 
                     // Determine the new list of IDs
@@ -98,27 +119,38 @@ const { id, submit, reset, state, setState } = useNotForm({
                     setState({ tasks: newValue });
                     methods.onBlur();
                   }
-                  " />
-                <FieldLabel :for="`form-vee-checkbox-${task.id}`" class="
-                  font-normal
-                ">
+                  "
+                />
+                <FieldLabel
+                  :for="`form-vee-checkbox-${task.id}`"
+                  class="font-normal"
+                >
                   {{ task.label }}
                 </FieldLabel>
               </Field>
             </FieldGroup>
-            <FieldError v-if="errors.length" :errors="errors" />
+            <FieldError
+              v-if="errors.length"
+              :errors="errors"
+            />
           </FieldSet>
         </NotField>
       </FieldGroup>
-
     </NotForm>
 
     <template #footer>
       <Field orientation="horizontal">
-        <Button type="reset" variant="outline" :form="id">
+        <Button
+          type="reset"
+          variant="outline"
+          :form="id"
+        >
           Reset
         </Button>
-        <Button type="submit" :form="id">
+        <Button
+          type="submit"
+          :form="id"
+        >
           Submit
         </Button>
       </Field>

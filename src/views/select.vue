@@ -31,81 +31,87 @@ const spokenLanguages = [
 </script>
 
 <template>
-<Display title="Select">
+  <Display title="Select">
+    <NotForm
+      :id
+      @submit="submit"
+      @reset="reset()"
+    >
+      <FieldGroup>
+        <NotField
+          v-slot="{ errors, name, methods }"
+          name="language"
+        >
+          <Field
+            orientation="responsive"
+            :data-invalid="!!errors.length"
+          >
+            <FieldContent>
+              <FieldLabel :for="name">
+                Spoken Language
+              </FieldLabel>
 
-  <NotForm :id @submit="submit" @reset="reset()">
+              <FieldDescription>
+                For best results, select the language you speak.
+              </FieldDescription>
 
-    <FieldGroup>
+              <FieldError
+                v-if="errors.length"
+                :errors="errors"
+              />
+            </FieldContent>
 
-      <NotField name="language" v-slot="{ errors, name, methods }">
 
-        <Field
-              orientation="responsive"
-              :data-invalid="!!errors.length"
+            <Select
+              v-model="state.language"
+              :name="name"
+              @update:model-value="methods.onBlur()"
             >
-              <FieldContent>
-
-                <FieldLabel :for="name">
-                  Spoken Language
-                </FieldLabel>
-
-                <FieldDescription>
-                  For best results, select the language you speak.
-                </FieldDescription>
-
-                <FieldError v-if="errors.length" :errors="errors" />
-                
-              </FieldContent>
-
-
-              <Select
-                :name="name"
-                v-model="state.language"
-                @update:model-value="methods.onBlur()"
+              <SelectTrigger
+                :id="name"
+                :aria-invalid="!!errors.length"
+                class="min-w-[120px]"
               >
-                <SelectTrigger
-                  :id="name"
-                  :aria-invalid="!!errors.length"
-                  class="min-w-[120px]"
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+
+              <SelectContent position="item-aligned">
+                <SelectItem value="auto">
+                  Auto
+                </SelectItem>
+
+                <SelectSeparator />
+
+                <SelectItem
+                  v-for="language in spokenLanguages"
+                  :key="language.value"
+                  :value="language.value"
                 >
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
+                  {{ language.label }}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </Field>
+        </NotField>
+      </FieldGroup>
+    </NotForm>
 
-                <SelectContent position="item-aligned">
-                  <SelectItem value="auto">
-                    Auto
-                  </SelectItem>
-
-                  <SelectSeparator />
-
-                  <SelectItem
-                    v-for="language in spokenLanguages"
-                    :key="language.value"
-                    :value="language.value"
-                  >
-                    {{ language.label }}
-                  </SelectItem>
-
-                </SelectContent>
-              </Select>
-            </Field>
-
-      </NotField>
-
-    </FieldGroup>
-
-  </NotForm>
-
-  <template #footer>
-     <Field orientation="horizontal">
-        <Button type="reset" variant="outline" :form="id">
+    <template #footer>
+      <Field orientation="horizontal">
+        <Button
+          type="reset"
+          variant="outline"
+          :form="id"
+        >
           Reset
         </Button>
-        <Button type="submit" :form="id">
+        <Button
+          type="submit"
+          :form="id"
+        >
           Submit
         </Button>
       </Field>
-  </template>
-
-</Display>
+    </template>
+  </Display>
 </template>

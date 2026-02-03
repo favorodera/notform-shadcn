@@ -54,9 +54,16 @@ const { id, reset, submit, state, setState } = useNotForm({
 
 <template>
   <Display title="Complex Form">
-    <NotForm :id @submit="submit" @reset="reset()">
+    <NotForm
+      :id
+      @submit="submit"
+      @reset="reset()"
+    >
       <FieldGroup>
-        <NotField v-slot="{ methods, name, errors }" name="plan">
+        <NotField
+          v-slot="{ methods, name, errors }"
+          name="plan"
+        >
           <FieldSet :data-invalid="!!errors.length">
             <FieldLegend variant="label">
               Subscription Plan
@@ -65,8 +72,8 @@ const { id, reset, submit, state, setState } = useNotForm({
               Choose your subscription plan.
             </FieldDescription>
             <RadioGroup
-              :name="name"
               v-model="state.plan"
+              :name="name"
               :aria-invalid="!!errors.length"
               @update:model-value="methods.onBlur()"
             >
@@ -99,20 +106,26 @@ const { id, reset, submit, state, setState } = useNotForm({
                 </Field>
               </FieldLabel>
             </RadioGroup>
-            <FieldError v-if="errors.length" :errors="errors" />
+            <FieldError
+              v-if="errors.length"
+              :errors="errors"
+            />
           </FieldSet>
         </NotField>
 
         <FieldSeparator />
 
-        <NotField v-slot="{ methods, name, errors }" name="billingPeriod">
+        <NotField
+          v-slot="{ methods, name, errors }"
+          name="billingPeriod"
+        >
           <Field :data-invalid="!!errors.length">
             <FieldLabel :for="name">
               Billing Period
             </FieldLabel>
             <Select
-              :name="name"
               v-model="state.billingPeriod"
+              :name="name"
               @update:model-value="methods.onBlur()"
             >
               <SelectTrigger
@@ -133,13 +146,19 @@ const { id, reset, submit, state, setState } = useNotForm({
             <FieldDescription>
               Choose how often you want to be billed.
             </FieldDescription>
-            <FieldError v-if="errors.length" :errors="errors" />
+            <FieldError
+              v-if="errors.length"
+              :errors="errors"
+            />
           </Field>
         </NotField>
 
         <FieldSeparator />
 
-        <NotField v-slot="{ methods, name, errors }" name="addons">
+        <NotField
+          v-slot="{ methods, name, errors }"
+          name="addons"
+        >
           <FieldSet :data-invalid="!!errors.length">
             <FieldLegend>Add-ons</FieldLegend>
             <FieldDescription>
@@ -176,13 +195,19 @@ const { id, reset, submit, state, setState } = useNotForm({
                 </FieldContent>
               </Field>
             </FieldGroup>
-            <FieldError v-if="errors.length" :errors="errors" />
+            <FieldError
+              v-if="errors.length"
+              :errors="errors"
+            />
           </FieldSet>
         </NotField>
 
         <FieldSeparator />
 
-        <NotField v-slot="{ methods, name, errors }" name="emailNotifications">
+        <NotField
+          v-slot="{ methods, name, errors }"
+          name="emailNotifications"
+        >
           <Field
             orientation="horizontal"
             :data-invalid="!!errors.length"
@@ -197,26 +222,35 @@ const { id, reset, submit, state, setState } = useNotForm({
             </FieldContent>
             <Switch
               :id="name"
-              :name="name"
               v-model="state.emailNotifications"
+              :name="name"
               :aria-invalid="!!errors.length"
               @update:model-value="methods.onBlur()"
             />
-            <FieldError v-if="errors.length" :errors="errors" />
+            <FieldError
+              v-if="errors.length"
+              :errors="errors"
+            />
           </Field>
         </NotField>
 
-      <FieldSeparator />
-
+        <FieldSeparator />
       </FieldGroup>
     </NotForm>
 
     <template #footer>
       <Field orientation="horizontal">
-        <Button type="reset" variant="outline" :form="id">
+        <Button
+          type="reset"
+          variant="outline"
+          :form="id"
+        >
           Reset
         </Button>
-        <Button type="submit" :form="id">
+        <Button
+          type="submit"
+          :form="id"
+        >
           Save Preferences
         </Button>
       </Field>

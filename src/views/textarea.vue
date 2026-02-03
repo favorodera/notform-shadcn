@@ -18,53 +18,60 @@ const { id, reset, submit, state } = useNotForm({
 </script>
 
 <template>
-<Display title="Textarea">
+  <Display title="Textarea">
+    <NotForm
+      :id
+      @submit="submit"
+      @reset="reset()"
+    >
+      <FieldGroup>
+        <NotField
+          v-slot="{ errors, name, methods }"
+          name="about"
+        >
+          <Field :data-invalid="!!errors.length">
+            <FieldLabel :for="name">
+              More about you
+            </FieldLabel>
 
-  <NotForm :id @submit="submit" @reset="reset()">
+            <Textarea
+              :id="name"
+              v-bind="methods"
+              v-model="state.about"
+              placeholder="I'm a software engineer..."
+              class="min-h-[120px]"
+              :aria-invalid="!!errors.length"
+            />
 
-    <FieldGroup>
+            <FieldDescription>
+              Tell us more about yourself. This will be used to help us personalize your experience.
+            </FieldDescription>
 
-      <NotField name="about" v-slot="{ errors, name, methods }">
+            <FieldError
+              v-if="errors.length"
+              :errors="errors"
+            />
+          </Field>
+        </NotField>
+      </FieldGroup>
+    </NotForm>
 
-        <Field :data-invalid="!!errors.length">
-
-          <FieldLabel :for="name">
-            More about you
-          </FieldLabel>
-
-          <Textarea
-            :id="name"
-            v-bind="methods"
-            v-model="state.about"
-           placeholder="I'm a software engineer..."
-        class="min-h-[120px]"
-        :aria-invalid="!!errors.length"
-          />
-
-          <FieldDescription>
-        Tell us more about yourself. This will be used to help us personalize your experience.
-      </FieldDescription>
-
-          <FieldError v-if="errors.length" :errors="errors" />
-
-        </Field>
-
-      </NotField>
-
-    </FieldGroup>
-
-  </NotForm>
-
-  <template #footer>
-     <Field orientation="horizontal">
-        <Button type="reset" variant="outline" :form="id">
+    <template #footer>
+      <Field orientation="horizontal">
+        <Button
+          type="reset"
+          variant="outline"
+          :form="id"
+        >
           Reset
         </Button>
-        <Button type="submit" :form="id">
+        <Button
+          type="submit"
+          :form="id"
+        >
           Submit
         </Button>
       </Field>
-  </template>
-
-</Display>
+    </template>
+  </Display>
 </template>

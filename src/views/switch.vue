@@ -17,57 +17,64 @@ const { id, reset, submit, state } = useNotForm({
 </script>
 
 <template>
-<Display title="Switch">
+  <Display title="Switch">
+    <NotForm
+      :id
+      @submit="submit"
+      @reset="reset()"
+    >
+      <FieldGroup>
+        <NotField
+          v-slot="{ errors, name, methods }"
+          name="twoFactor"
+        >
+          <Field
+            orientation="horizontal"
+            :data-invalid="!!errors.length"
+          >
+            <FieldContent>
+              <FieldLabel :for="name">
+                Multi-factor authentication
+              </FieldLabel>
 
-  <NotForm :id @submit="submit" @reset="reset()">
+              <FieldDescription>
+                Enable two-factor authentication to add an extra layer of security to your account.
+              </FieldDescription>
 
-    <FieldGroup>
-
-      <NotField name="twoFactor" v-slot="{ errors, name, methods }">
-
-        <Field
-              orientation="horizontal"
-              :data-invalid="!!errors.length"
-            >
-              <FieldContent>
-
-                <FieldLabel :for="name">
-                 Multi-factor authentication
-                </FieldLabel>
-
-                <FieldDescription>
-                  Enable two-factor authentication to add an extra layer of security to your account.
-                </FieldDescription>
-
-                <FieldError v-if="errors.length" :errors="errors" />
-                
-              </FieldContent>
-
-              <Switch
-                :id="name"
-                :name="name"
-                v-model="state.twoFactor"
-                :aria-invalid="!!errors.length"
-                @update:model-value="methods.onBlur()"
+              <FieldError
+                v-if="errors.length"
+                :errors="errors"
               />
-            </Field>
+            </FieldContent>
 
-      </NotField>
+            <Switch
+              :id="name"
+              v-model="state.twoFactor"
+              :name="name"
+              :aria-invalid="!!errors.length"
+              @update:model-value="methods.onBlur()"
+            />
+          </Field>
+        </NotField>
+      </FieldGroup>
+    </NotForm>
 
-    </FieldGroup>
-
-  </NotForm>
-
-  <template #footer>
-     <Field orientation="horizontal">
-        <Button type="reset" variant="outline" :form="id">
+    <template #footer>
+      <Field orientation="horizontal">
+        <Button
+          type="reset"
+          variant="outline"
+          :form="id"
+        >
           Reset
         </Button>
-        <Button type="submit" :form="id">
+        <Button
+          type="submit"
+          :form="id"
+        >
           Submit
         </Button>
       </Field>
-  </template>
-
-</Display>
+    </template>
+  </Display>
 </template>

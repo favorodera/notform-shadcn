@@ -5,25 +5,24 @@ defineProps<{
 </script>
 
 <template>
-  <Card class="
-    w-full
-    sm:max-w-xl
-  ">
-
+  <Card
+    class="
+      w-full
+      sm:max-w-xl
+    "
+  >
     <CardHeader>
       <CardTitle> {{ title }}</CardTitle>
 
       <CardDescription>
         Demo for {{ title }}
       </CardDescription>
-
     </CardHeader>
 
     <CardContent>
       <slot />
     </CardContent>
 
-    <CardFooter><slot name="footer"></slot></CardFooter>
-  
+    <CardFooter><slot name="footer" /></CardFooter>
   </Card>
 </template>
