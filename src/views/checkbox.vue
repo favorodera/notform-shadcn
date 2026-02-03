@@ -103,7 +103,7 @@ const { id, submit, reset, state, setState } = useNotForm({
                 :data-invalid="!!errors.length"
               >
                 <Checkbox
-                  :id="`form-vee-checkbox-${task.id}`"
+                  :id="task.id"
                   :name="name"
                   :aria-invalid="!!errors.length"
                   :model-value="state.tasks.includes(task.id)"
@@ -122,7 +122,7 @@ const { id, submit, reset, state, setState } = useNotForm({
                   "
                 />
                 <FieldLabel
-                  :for="`form-vee-checkbox-${task.id}`"
+                  :for="task.id"
                   class="font-normal"
                 >
                   {{ task.label }}
